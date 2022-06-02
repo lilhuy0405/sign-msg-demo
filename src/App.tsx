@@ -14,7 +14,7 @@ function App() {
   const provider = isWeb3Browser ? new ethers.providers.Web3Provider(window.ethereum) : null;
   const signer = provider ? provider.getSigner() : null;
   const [user, setUser] = useState('')
-
+  const [message, setMessage] = useState('')
   const handleChangeAccount = async (accounts: string[]) => {
     if (!signer) return
     if (accounts.length > 0) {
@@ -46,6 +46,7 @@ function App() {
       return
     }
     const message = "login one-time code: ".concat(new Date().getTime().toString())
+    setMessage(message)
     const sig = await signer.signMessage(message)
     setSignature(sig)
 
@@ -99,6 +100,9 @@ function App() {
         <button onClick={deactive}>Disconnect wallet</button>
       </div>
       <button onClick={handleLogin}>Sign in</button>
+      <div>
+        message: {message}
+      </div>
       <div>
         <p>Signature: {signature}</p>
       </div>
